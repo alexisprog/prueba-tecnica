@@ -14,18 +14,15 @@ import contentRouter from "./routes/content.routes.js";
 import authRouter from "./routes/auth.routes.js";
 
 dotenv.config();
-const PORT = process.env.PORT || "4000";
-
+const port = process.env.PORT || "4000";
 const app = express();
 app.use(
   cors({
     origin: "*",
   })
 );
-const port = PORT;
-
+app.use(express.static("images"));
 app.use(express.json());
-
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Rutas

@@ -10,9 +10,20 @@ export const createContent = async (contentData) => {
   }
 };
 
-export const getContents = async () => {
+export const getContents = async (query) => {
   try {
-    const contents = await Content.find().populate([
+    const filters = {};
+    if (query?.credits) {
+      filters["credits"] = query.credits;
+    }
+    if (query?.topic) {
+      filters["topic"] = query.topic;
+    }
+    if (query?.category) {
+      filters["category"] = query.category;
+    }
+
+    const contents = await Content.find(filters).populate([
       "credits",
       "topic",
       "category",

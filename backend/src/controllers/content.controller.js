@@ -1,4 +1,21 @@
+import fs from "fs";
+import multer from "multer";
 import * as contentServices from "../services/content.service.js";
+
+// Configuración de Multer para manejar la subida de archivos
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = "./images"; // Carpeta de destino para las imágenes
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true }); // Crea la carpeta si no existe
+    }
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname); // Usa el nombre original del archivo
+  },
+});
+export const upload = multer({ storage });
 
 export const createContent = async (req, res) => {
   try {
@@ -18,7 +35,8 @@ export const createContent = async (req, res) => {
 
 export const getContents = async (req, res) => {
   try {
-    const contents = await contentServices.getContents();
+    const query = req.query;
+    const contents = await contentServices.getContents(query);
     res.status(200).json(contents);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -66,6 +84,15 @@ export const deleteContent = async (req, res) => {
       return res.status(404).json({ message: "Contenido no encontrado" });
     }
     res.status(200).json({ message: "Contenido eliminado correctamente" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const uploadImage = async (req, res) => {
+  try {
+    const filename = req.file.filename;
+    res.status(201).json({ fileName: filename });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
