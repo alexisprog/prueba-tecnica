@@ -1,4 +1,3 @@
-// import DropdownUser from "components/dropdown-user";
 import { ReactNode } from "react";
 import { NavbarComponent } from "./navbar";
 
@@ -11,11 +10,6 @@ const Layout = ({ children }: LayoutProps) => {
     <div className="flex flex-col min-h-screen">
       {/* Encabezado */}
       <NavbarComponent />
-      {/* <nav className="bg-white shadow dark:bg-gray-900">
-        <div className="container flex items-center justify-end p-6 mx-auto text-gray-600 capitalize dark:text-gray-300">
-          <DropdownUser />
-        </div>
-      </nav> */}
       {/* Contenido principal */}
       <main className="flex-grow">
         <div className="container mx-auto px-4">{children}</div>
