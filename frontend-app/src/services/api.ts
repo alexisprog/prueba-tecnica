@@ -59,6 +59,16 @@ class Api {
       .post<T>(url, data, config)
       .then((response) => response.data);
   }
+
+  public put<T>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<T> {
+    return this.axiosInstance
+      .put<T>(url, data, config)
+      .then((response) => response.data);
+  }
 }
 
 export default new Api(baseURL);

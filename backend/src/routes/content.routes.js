@@ -13,7 +13,7 @@ const router = Router();
 router.get("/", getContents);
 router.get("/:id", getContentById);
 router.post("/", createContent);
-router.put("/", updateContent);
+router.put("/:id", updateContent);
 router.delete("/:id", deleteContent);
 router.post("/upload", upload.single("image"), uploadImage);
 

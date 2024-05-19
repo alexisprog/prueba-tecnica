@@ -8,14 +8,16 @@ import {
   HiOutlineGlobe,
   HiOutlineCloudUpload,
 } from "react-icons/hi";
-import { Content } from "src/models/content";
 import { getContentsFilters } from "services/content.service";
-import { useAppSelector } from "store/hooks";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 import { Role } from "../models/user";
 import ModalContent from "./modals/modal-content";
+import { fetchContentSuccess } from "store/slices/content.slice";
 
 const CardTopic = () => {
+  const dispatch = useAppDispatch();
   const { currentTopic } = useAppSelector((state) => state.topic);
+  const { contentsList } = useAppSelector((state) => state.content);
   const { user } = useAppSelector((state) => state.user);
   const [active, setActive] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,8 +28,8 @@ const CardTopic = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    getContentsFilters({ topic: currentTopic?._id }).then((contents) =>
-      setData(contents)
+    getContentsFilters({ topic: currentTopic?._id }).then((_contents) =>
+      dispatch(fetchContentSuccess(_contents))
     );
   };
 
@@ -44,7 +46,6 @@ const CardTopic = () => {
         return <HiOutlineGlobe />;
     }
   };
-  const [data, setData] = useState<Content[]>([]);
 
   useEffect(() => {
     if (!currentTopic?._id) {
@@ -52,11 +53,11 @@ const CardTopic = () => {
     }
     setActive(0);
     getContentsFilters({ topic: currentTopic?._id }).then((contents) =>
-      setData(contents)
+      dispatch(fetchContentSuccess(contents))
     );
   }, [currentTopic?._id]);
 
-  if (!currentTopic) {
+  if (!currentTopic || !contentsList) {
     return null;
   }
   return (
@@ -75,12 +76,14 @@ const CardTopic = () => {
       <div>
         <Tabs aria-label={currentTopic._id} style="default">
           {currentTopic.allowedCategories.map((category, index) => {
-            const _data = data.filter((r) => r.category._id === category._id);
+            const _data = contentsList.filter(
+              (r) => r.category._id === category._id
+            );
             return (
               <Tabs.Item
                 key={index}
                 active={active === index}
-                title={` ${_data.length} ${category.name}`}
+                title={`${_data.length} ${category.name}`}
                 icon={() => renderIcon(category.name)}
                 onClick={() => setActive(index)}
               >

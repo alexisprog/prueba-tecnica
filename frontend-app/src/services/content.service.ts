@@ -17,3 +17,7 @@ export const uploadImage = async (selectedFile: File) => {
   formData.append("image", selectedFile);
   return await api.post<{ fileName: string }>("/contents/upload", formData);
 };
+
+export const updateContent = async (_id: string, body: BodyContent) => {
+  return await api.put<Content>(`/contents/${_id}`, body);
+};

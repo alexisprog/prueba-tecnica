@@ -3,7 +3,12 @@ import React, { useState } from "react";
 import { Content } from "src/models/content";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import ModalSeeContent from "./modals/modal-see-content";
-import { setCurrentContent } from "store/slices/content.slice";
+import {
+  fetchContentSuccess,
+  setCurrentContent,
+} from "store/slices/content.slice";
+import ModalContent from "./modals/modal-content";
+import { getContentsFilters } from "services/content.service";
 
 interface ContentListProps {
   data: Content[];
@@ -12,7 +17,9 @@ interface ContentListProps {
 const ContentList: React.FC<ContentListProps> = ({ data }) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.user);
+  const { currentTopic } = useAppSelector((state) => state.topic);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
 
   const handleOpenModal = (content: Content) => {
     dispatch(setCurrentContent(content));
@@ -21,6 +28,18 @@ const ContentList: React.FC<ContentListProps> = ({ data }) => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleOpenModalEdit = (content: Content) => {
+    dispatch(setCurrentContent(content));
+    setIsModalOpenEdit(true);
+  };
+
+  const handleCloseModalEdit = () => {
+    getContentsFilters({ topic: currentTopic?._id }).then((contents) =>
+      dispatch(fetchContentSuccess(contents))
+    );
+    setIsModalOpenEdit(false);
   };
 
   return (
@@ -54,11 +73,20 @@ const ContentList: React.FC<ContentListProps> = ({ data }) => {
                 {user ? (
                   <div className="inline-flex items-center">
                     <a
-                      href="#"
                       onClick={() => handleOpenModal(content)}
-                      className="text-sm font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                      className="cursor-pointer text-sm font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                     >
                       Ver
+                    </a>
+                  </div>
+                ) : null}
+                {user && user._id === content.credits._id ? (
+                  <div className="inline-flex items-center">
+                    <a
+                      onClick={() => handleOpenModalEdit(content)}
+                      className="cursor-pointer text-sm font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                    >
+                      Editar
                     </a>
                   </div>
                 ) : null}
@@ -68,6 +96,7 @@ const ContentList: React.FC<ContentListProps> = ({ data }) => {
         </ul>
       )}
       <ModalSeeContent isOpen={isModalOpen} onClose={handleCloseModal} />
+      <ModalContent isOpen={isModalOpenEdit} onClose={handleCloseModalEdit} />
     </div>
   );
 };

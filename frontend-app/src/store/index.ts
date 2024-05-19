@@ -23,7 +23,7 @@ const reducer = combineReducers({
 });
 
 const persistConfig = {
-  key: "v1",
+  key: "root",
   storage,
 };
 

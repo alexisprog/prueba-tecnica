@@ -19,9 +19,12 @@ import { BodyContent } from "src/models/content";
 import {
   fetchContentFailure,
   fetchContentStart,
-  fetchContentSuccess,
 } from "store/slices/content.slice";
-import { createContent, uploadImage } from "services/content.service";
+import {
+  createContent,
+  updateContent,
+  uploadImage,
+} from "services/content.service";
 
 type ModalProps = {
   isOpen: boolean;
@@ -41,7 +44,9 @@ const ModalContent: React.FC<ModalProps> = ({
 }: ModalProps) => {
   const dispatch = useAppDispatch();
   const { currentTopic } = useAppSelector((state) => state.topic);
-  const { loading, error } = useAppSelector((state) => state.content);
+  const { loading, error, currentContent } = useAppSelector(
+    (state) => state.content
+  );
   const { user } = useAppSelector((state) => state.user);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [errorFile, setErrorFile] = useState<string>("");
@@ -52,11 +57,18 @@ const ModalContent: React.FC<ModalProps> = ({
       if (selectedImage) {
         // subir imagen primero
         const { fileName } = await uploadImage(selectedImage);
-        await createContent({ ...body, data: fileName });
+        if (currentContent?._id) {
+          await updateContent(currentContent?._id, { ...body, data: fileName });
+        } else {
+          await createContent({ ...body, data: fileName });
+        }
       } else {
-        await createContent(body);
+        if (currentContent?._id) {
+          await updateContent(currentContent?._id, body);
+        } else {
+          await createContent(body);
+        }
       }
-      dispatch(fetchContentSuccess());
       onClose();
     } catch (error: any) {
       if (error?.response?.data?.error) {
@@ -123,11 +135,22 @@ const ModalContent: React.FC<ModalProps> = ({
   };
 
   useEffect(() => {
-    setErrorFile("");
-    setSelectedImage(null);
-    formik.resetForm();
-    dispatch(fetchContentSuccess());
-  }, [isOpen]);
+    if (currentContent?._id) {
+      formik.setFieldValue("name", currentContent?.name);
+      formik.setFieldValue("category", currentContent?.category?.name);
+      if (currentContent?.category?.name.toUpperCase() === "VIDEOS") {
+        formik.setFieldValue("video", currentContent?.data);
+      }
+      if (currentContent?.category?.name.toUpperCase() === "TEXTOS") {
+        formik.setFieldValue("texto", currentContent?.data);
+      }
+    }
+    if (isOpen === false) {
+      setErrorFile("");
+      setSelectedImage(null);
+      formik.resetForm();
+    }
+  }, [isOpen, currentContent]);
 
   const renderDataUpload = () => {
     if (!formik.values.category) {
@@ -208,7 +231,9 @@ const ModalContent: React.FC<ModalProps> = ({
     <Modal dismissible show={isOpen} size="xl" onClose={onClose}>
       <form onSubmit={formik.handleSubmit}>
         <Modal.Header>
-          {`Crear contenido para ${currentTopic.name}`}
+          {`${currentContent?._id ? "Editar" : "Crear"} contenido para ${
+            currentTopic.name
+          }`}
         </Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
