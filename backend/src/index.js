@@ -1,5 +1,7 @@
 import express from "express";
 import swaggerUi from "swagger-ui-express";
+import dotenv from "dotenv";
+import cors from "cors";
 
 import { connect } from "./config/db.js";
 import swaggerDocument from "./swagger/swagger.js";
@@ -11,8 +13,16 @@ import topicRouter from "./routes/topic.routes.js";
 import contentRouter from "./routes/content.routes.js";
 import authRouter from "./routes/auth.routes.js";
 
+dotenv.config();
+const PORT = process.env.PORT || "4000";
+
 const app = express();
-const port = 3000;
+app.use(
+  cors({
+    origin: "*",
+  })
+);
+const port = PORT;
 
 app.use(express.json());
 
