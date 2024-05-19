@@ -10,7 +10,7 @@ import {
   fetchUserStart,
   fetchUserSuccess,
 } from "../../store/slices/user.slice";
-import { login } from "../../services/auth.services";
+import { login } from "../../services/auth.service";
 import {
   HiOutlineArrowRight,
   HiMail,
@@ -57,7 +57,7 @@ const ModalLogin: React.FC<ModalProps> = ({ isOpen, onClose }: ModalProps) => {
   });
 
   return (
-    <Modal show={isOpen} size="md" onClose={onClose} popup>
+    <Modal dismissible show={isOpen} size="md" onClose={onClose} popup>
       <form onSubmit={formik.handleSubmit}>
         <Modal.Header />
         <Modal.Body>

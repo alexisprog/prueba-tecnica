@@ -15,6 +15,7 @@ export default defineConfig((configEnv) => {
         app: resolve(__dirname, "src", "app"),
         components: resolve(__dirname, "src", "components"),
         store: resolve(__dirname, "src", "store"),
+        services: resolve(__dirname, "src", "services"),
       },
     },
     css: {

@@ -4,6 +4,9 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 console.log(import.meta.env.VITE_API_BASE_URL);
 const baseURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
 
+export const serverURL =
+  import.meta.env.VITE_SERVER_BASE_URL || "http://localhost:4000";
+
 class Api {
   private axiosInstance: AxiosInstance;
 

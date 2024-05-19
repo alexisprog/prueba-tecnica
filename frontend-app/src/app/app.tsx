@@ -3,6 +3,7 @@ import Layout from "components/layouts/main";
 import ModalRegister from "components/modals/modal-register";
 import { useAppSelector } from "store/hooks";
 import { Button } from "flowbite-react";
+import TopicContainer from "components/topic-container";
 
 function App() {
   const { user } = useAppSelector((state) => state.user);
@@ -23,7 +24,7 @@ function App() {
             <div className="container flex flex-col items-center px-4 py-12 mx-auto text-center">
               <h2 className="max-w-2xl mx-auto text-2xl font-semibold tracking-tight text-gray-800 xl:text-3xl dark:text-white">
                 ¿Quieres destacar como el mejor creador de{" "}
-                <span className="text-violet-500">contenidos?</span>
+                <span className="text-cyan-500">contenidos?</span>
               </h2>
 
               <p className="max-w-4xl mt-6 text-center text-gray-500 dark:text-gray-300">
@@ -44,6 +45,7 @@ function App() {
             <ModalRegister isOpen={isModalOpen} onClose={handleCloseModal} />
           </section>
         )}
+        <TopicContainer />
       </Layout>
     </main>
   );

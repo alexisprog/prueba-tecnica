@@ -9,7 +9,7 @@ import {
   fetchUserStart,
   fetchUserSuccess,
 } from "../../store/slices/user.slice";
-import { register } from "../../services/auth.services";
+import { register } from "../../services/auth.service";
 import { Alert, Button, Label, Modal, TextInput } from "flowbite-react";
 import {
   HiOutlineArrowRight,
@@ -74,14 +74,14 @@ const ModalRegister: React.FC<ModalProps> = ({
     () => formik.values.role === "Reader",
     [formik.values.role]
   );
-  const switchColor = isChecked ? "bg-violet-400" : "bg-gray-400";
+  const switchColor = isChecked ? "bg-cyan-400" : "bg-gray-400";
 
   if (!isOpen) {
     return null;
   }
 
   return (
-    <Modal show={isOpen} size="md" onClose={onClose} popup>
+    <Modal dismissible show={isOpen} size="md" onClose={onClose} popup>
       <form onSubmit={formik.handleSubmit}>
         <Modal.Header />
         <Modal.Body>
@@ -163,15 +163,13 @@ const ModalRegister: React.FC<ModalProps> = ({
                     />
                     <span
                       className={`toggle absolute top-1 ${
-                        isChecked
-                          ? "right-1 bg-violet-900"
-                          : "left-1 bg-gray-800"
+                        isChecked ? "right-1 bg-cyan-800" : "left-1 bg-gray-800"
                       } w-4 h-4 rounded-full transition-all duration-300`}
                     ></span>
                   </label>
                 </div>
                 <label htmlFor="role" className="block mb-1 text-white text-sm">
-                  Quiero ser solo lector unicamente
+                  Quiero ser lector unicamente
                 </label>
               </div>
             </div>

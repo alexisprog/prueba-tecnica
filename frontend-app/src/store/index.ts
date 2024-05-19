@@ -12,10 +12,14 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import userSlice from "./slices/user.slice";
+import topicSlice from "./slices/topic.slice";
+import contentSlice from "./slices/content.slice";
 
 //add slice to reducer
 const reducer = combineReducers({
   user: userSlice,
+  topic: topicSlice,
+  content: contentSlice,
 });
 
 const persistConfig = {
