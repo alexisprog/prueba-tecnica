@@ -47,7 +47,6 @@ const ModalContent: React.FC<ModalProps> = ({
   const { loading, error, currentContent } = useAppSelector(
     (state) => state.content
   );
-  const { user } = useAppSelector((state) => state.user);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [errorFile, setErrorFile] = useState<string>("");
 
@@ -100,7 +99,6 @@ const ModalContent: React.FC<ModalProps> = ({
         data,
         category: category?._id ?? "",
         topic: currentTopic?._id ?? "",
-        credits: user?._id ?? "",
       });
       formik.resetForm();
     },

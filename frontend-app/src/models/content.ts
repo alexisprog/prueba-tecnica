@@ -26,5 +26,4 @@ export interface BodyContent {
   data: string;
   category: string;
   topic: string;
-  credits?: string;
 }

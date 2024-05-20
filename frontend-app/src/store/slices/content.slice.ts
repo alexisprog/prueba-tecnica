@@ -32,7 +32,7 @@ const contentSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    setCurrentContent: (state, action: PayloadAction<Content>) => {
+    setCurrentContent: (state, action: PayloadAction<Content | null>) => {
       state.currentContent = action.payload;
     },
   },

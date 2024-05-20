@@ -8,7 +8,8 @@ import {
   setCurrentContent,
 } from "store/slices/content.slice";
 import ModalContent from "./modals/modal-content";
-import { getContentsFilters } from "services/content.service";
+import { deleteContent, getContentsFilters } from "services/content.service";
+import ModalConfirm from "./modals/modal-confirm";
 
 interface ContentListProps {
   data: Content[];
@@ -18,8 +19,10 @@ const ContentList: React.FC<ContentListProps> = ({ data }) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.user);
   const { currentTopic } = useAppSelector((state) => state.topic);
+  const { currentContent } = useAppSelector((state) => state.content);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
+  const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
 
   const handleOpenModal = (content: Content) => {
     dispatch(setCurrentContent(content));
@@ -40,6 +43,28 @@ const ContentList: React.FC<ContentListProps> = ({ data }) => {
       dispatch(fetchContentSuccess(contents))
     );
     setIsModalOpenEdit(false);
+  };
+
+  const handleOpenModalDelete = (content: Content) => {
+    dispatch(setCurrentContent(content));
+    setIsModalOpenDelete(true);
+  };
+
+  const handleCloseModalDelete = () => {
+    dispatch(setCurrentContent(null));
+    setIsModalOpenDelete(false);
+  };
+
+  const handleConfirmDelete = () => {
+    if (currentContent?._id) {
+      deleteContent(currentContent._id).then(() => {
+        getContentsFilters({ topic: currentTopic?._id }).then((contents) =>
+          dispatch(fetchContentSuccess(contents))
+        );
+      });
+    }
+    dispatch(setCurrentContent(null));
+    setIsModalOpenDelete(false);
   };
 
   return (
@@ -90,6 +115,16 @@ const ContentList: React.FC<ContentListProps> = ({ data }) => {
                     </a>
                   </div>
                 ) : null}
+                {user && user.role === "Admin" ? (
+                  <div className="inline-flex items-center">
+                    <a
+                      onClick={() => handleOpenModalDelete(content)}
+                      className="cursor-pointer text-sm font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                    >
+                      Eliminar
+                    </a>
+                  </div>
+                ) : null}
               </div>
             </li>
           ))}
@@ -97,6 +132,12 @@ const ContentList: React.FC<ContentListProps> = ({ data }) => {
       )}
       <ModalSeeContent isOpen={isModalOpen} onClose={handleCloseModal} />
       <ModalContent isOpen={isModalOpenEdit} onClose={handleCloseModalEdit} />
+      <ModalConfirm
+        isOpen={isModalOpenDelete}
+        onClose={handleCloseModalDelete}
+        onConfirm={handleConfirmDelete}
+        text="Seguro de eliminar el contenido?"
+      />
     </div>
   );
 };

@@ -21,3 +21,7 @@ export const uploadImage = async (selectedFile: File) => {
 export const updateContent = async (_id: string, body: BodyContent) => {
   return await api.put<Content>(`/contents/${_id}`, body);
 };
+
+export const deleteContent = async (_id: string) => {
+  return await api.remove<string>(`/contents/${_id}`);
+};

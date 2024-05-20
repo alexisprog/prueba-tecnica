@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import store from "store/index";
 
 console.log(import.meta.env.VITE_API_BASE_URL);
 const baseURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
@@ -23,6 +24,10 @@ class Api {
   private setupInterceptors() {
     this.axiosInstance.interceptors.request.use(
       (config: AxiosRequestConfig) => {
+        const { user } = store.getState().user;
+        if (user?.token && config?.headers) {
+          config.headers["Authorization"] = `Bearer ${user.token}`;
+        }
         return config;
       },
       (error) => {
@@ -67,6 +72,12 @@ class Api {
   ): Promise<T> {
     return this.axiosInstance
       .put<T>(url, data, config)
+      .then((response) => response.data);
+  }
+
+  public remove<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+    return this.axiosInstance
+      .delete<T>(url, config)
       .then((response) => response.data);
   }
 }
