@@ -1,7 +1,11 @@
 import Content from "../models/Content.js";
+import { getCategoryById } from "./category.service.js";
+import { getTopicById } from "./topic.service.js";
 
 export const createContent = async (contentData) => {
   try {
+    await getCategoryById(contentData.category);
+    await getTopicById(contentData.topic);
     const newContent = new Content(contentData);
     const savedContent = await newContent.save();
     return savedContent;
@@ -23,11 +27,9 @@ export const getContents = async (query) => {
       filters["category"] = query.category;
     }
 
-    const contents = await Content.find(filters).populate([
-      "credits",
-      "topic",
-      "category",
-    ]);
+    const contents = await Content.find(filters)
+      .sort({ createdAt: -1 })
+      .populate(["credits", "topic", "category"]);
     return contents;
   } catch (error) {
     throw new Error(error.message);
@@ -64,9 +66,9 @@ export const updateContent = async (id, contentData) => {
   }
 };
 
-export const deleteContent = async (id) => {
+export const deleteContent = async (_id) => {
   try {
-    const deletedContent = await Content.findByIdAndRemove(id);
+    const deletedContent = await Content.deleteOne({ _id });
     if (!deletedContent) {
       throw new Error("Contenido no encontrado");
     }

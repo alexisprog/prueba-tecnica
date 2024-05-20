@@ -42,6 +42,13 @@ const swaggerDocument = {
     ...contentApi,
   },
   components: {
+    securitySchemes: {
+      BearerAuth: {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+      },
+    },
     schemas: {
       ...schemaAuth,
       ...schemaUser,

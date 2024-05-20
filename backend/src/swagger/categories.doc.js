@@ -2,6 +2,11 @@ export const categoriesApi = {
   "/api/categories": {
     post: {
       summary: "Crea una nueva categoría",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
       tags: ["Categorías"],
       requestBody: {
         description: "Crea una nueva categoría con el nombre proporcionado",
@@ -153,6 +158,11 @@ export const categoriesApi = {
     },
     put: {
       summary: "Actualiza una categoría por su ID",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
       tags: ["Categorías"],
       parameters: [
         {
@@ -230,6 +240,11 @@ export const categoriesApi = {
     },
     delete: {
       summary: "Elimina una categoría por su ID",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
       tags: ["Categorías"],
       parameters: [
         {

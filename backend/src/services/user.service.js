@@ -98,9 +98,9 @@ export const updateUser = async (id, userData) => {
   }
 };
 
-export const deleteUser = async (id) => {
+export const deleteUser = async (_id) => {
   try {
-    const deletedUser = await User.findByIdAndRemove(id);
+    const deletedUser = await User.deleteOne({ _id });
     if (!deletedUser) {
       throw new Error("Usuario no encontrado");
     }

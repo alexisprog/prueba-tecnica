@@ -19,7 +19,8 @@ export const upload = multer({ storage });
 
 export const createContent = async (req, res) => {
   try {
-    const { name, data, category, topic, credits } = req.body;
+    const credits = req.user._id;
+    const { name, data, category, topic } = req.body;
     const newContent = await contentServices.createContent({
       name,
       data,
@@ -58,8 +59,9 @@ export const getContentById = async (req, res) => {
 
 export const updateContent = async (req, res) => {
   try {
+    const credits = req.user._id;
     const { id } = req.params;
-    const { name, data, category, topic, credits } = req.body;
+    const { name, data, category, topic } = req.body;
     const updatedContent = await contentServices.updateContent(id, {
       name,
       data,

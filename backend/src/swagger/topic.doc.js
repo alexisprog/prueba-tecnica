@@ -2,6 +2,11 @@ export const topicApi = {
   "/api/topics": {
     post: {
       tags: ["Temáticas"],
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
       summary: "Crear una nueva temática",
       description: "Crea una nueva temática con los datos proporcionados",
       requestBody: {
@@ -183,6 +188,11 @@ export const topicApi = {
     },
     put: {
       tags: ["Temáticas"],
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
       summary: "Actualizar una temática por su ID",
       description: "Actualizar una temática con los datos proporcionados",
       parameters: [
@@ -280,6 +290,11 @@ export const topicApi = {
     },
     delete: {
       summary: "Elimina una temática por su ID",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
       tags: ["Temáticas"],
       parameters: [
         {

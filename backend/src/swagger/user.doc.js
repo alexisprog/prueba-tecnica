@@ -2,6 +2,11 @@ export const userApi = {
   "/api/users": {
     post: {
       summary: "Crea un nuevo usuario",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
       tags: ["Usuarios"],
       requestBody: {
         description: "Datos del nuevo usuario",
@@ -183,6 +188,11 @@ export const userApi = {
     },
     put: {
       summary: "Actualiza un usuario por su ID",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
       tags: ["Usuarios"],
       parameters: [
         {
@@ -272,6 +282,11 @@ export const userApi = {
     },
     delete: {
       summary: "Elimina un usuario por su ID",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
       tags: ["Usuarios"],
       parameters: [
         {

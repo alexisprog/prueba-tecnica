@@ -45,9 +45,9 @@ export const updateCategory = async (id, categoryData) => {
   }
 };
 
-export const deleteCategory = async (id) => {
+export const deleteCategory = async (_id) => {
   try {
-    const deletedCategory = await Category.findByIdAndRemove(id);
+    const deletedCategory = await Category.deleteOne({ _id });
     if (!deletedCategory) {
       throw new Error("Categoria no encontrada");
     }

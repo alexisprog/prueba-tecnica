@@ -6,12 +6,13 @@ import {
   updateTopic,
   deleteTopic,
 } from "../controllers/topic.controller.js";
+import authMiddleware from "../middleware/index.js";
 const router = Router();
 
 router.get("/", getTopics);
 router.get("/:id", getTopicById);
-router.post("/", createTopic);
-router.put("/", updateTopic);
-router.delete("/:id", deleteTopic);
+router.post("/", authMiddleware(["Admin"]), createTopic);
+router.put("/", authMiddleware(["Admin"]), updateTopic);
+router.delete("/:id", authMiddleware(["Admin"]), deleteTopic);
 
 export default router;

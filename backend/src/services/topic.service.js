@@ -45,9 +45,9 @@ export const updateTopic = async (id, topicData) => {
   }
 };
 
-export const deleteTopic = async (id) => {
+export const deleteTopic = async (_id) => {
   try {
-    const deletedTopic = await Topic.findByIdAndRemove(id);
+    const deletedTopic = await Topic.deleteOne({ _id });
     if (!deletedTopic) {
       throw new Error("Tematica no encontrada");
     }

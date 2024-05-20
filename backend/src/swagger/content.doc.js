@@ -2,6 +2,11 @@ export const contentApi = {
   "/api/contents": {
     post: {
       summary: "Crea un nuevo contenido",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
       tags: ["Contenidos"],
       requestBody: {
         description: "Datos del nuevo contenido",
@@ -212,6 +217,11 @@ export const contentApi = {
     },
     put: {
       summary: "Actualiza un contenido por su ID",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
       tags: ["Contenidos"],
       parameters: [
         {
@@ -313,6 +323,11 @@ export const contentApi = {
     },
     delete: {
       summary: "Elimina un contenido por su ID",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
       tags: ["Contenidos"],
       parameters: [
         {
