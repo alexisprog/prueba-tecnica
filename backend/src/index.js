@@ -13,6 +13,8 @@ import topicRouter from "./routes/topic.routes.js";
 import contentRouter from "./routes/content.routes.js";
 import authRouter from "./routes/auth.routes.js";
 
+import { initData } from "./helpers/init.data.js";
+
 dotenv.config();
 const port = process.env.PORT || "4000";
 const app = express();
@@ -37,6 +39,7 @@ connect()
   .then(() => {
     app.listen(port, () => {
       console.log(`Servidor escuchando en http://localhost:${port}`);
+      initData();
     });
   })
   .catch((error) => {
