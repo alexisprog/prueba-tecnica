@@ -8,9 +8,19 @@ El backend está desarrollado en Node.js utilizando Express y MongoDB. Asegúrat
 
 ### Instalación
 
-1. Navega a la carpeta `backend`: cd backend
+1. Navega a la carpeta `backend`:
+
+```bash
+cd backend
+```
 
 2. Instala las dependencias utilizando npm o yarn: yarn install o npm install
+
+```bash
+npm install
+# or
+yarn install
+```
 
 ### Configuración de variables de entorno
 
@@ -20,6 +30,12 @@ Antes de ejecutar el backend, asegúrate de configurar las variables de entorno 
 
 Para levantar el backend, utiliza el siguiente comando: npm run start o yarn start
 
+```bash
+npm run start
+# or
+yarn start
+```
+
 Esto iniciará el servidor en el puerto especificado en las variables de entorno.
 
 ## Frontend
@@ -28,9 +44,19 @@ El frontend de la aplicación está desarrollado en TypeScript utilizando Vite p
 
 ### Instalación
 
-1. Navega a la carpeta `frontend-app`: cd frontend-app
+1. Navega a la carpeta `frontend-app`:
 
-2. Instala las dependencias utilizando npm o yarn: yarn install o npm install
+```bash
+cd frontend-app
+```
+
+2. Instala las dependencias utilizando npm o yarn:
+
+```bash
+npm install
+# or
+yarn install
+```
 
 ### Configuración de variables de entorno
 
@@ -38,6 +64,12 @@ Antes de ejecutar el frontend, asegúrate de configurar las variables de entorno
 
 ### Ejecución
 
-Para levantar el frontend en modo de desarrollo, utiliza el siguiente comando: npm run dev o yarn dev
+Para levantar el frontend en modo de desarrollo, utiliza el siguiente comando: 
+
+```bash
+npm run start
+# or
+yarn start
+```
 
 Esto iniciará la aplicación y podrás acceder a ella desde tu navegador en la dirección especificada durante la ejecución.
