@@ -15,7 +15,7 @@ router.get("/", getContents);
 router.get("/:id", getContentById);
 router.post("/", authMiddleware(["Admin", "Creator"]), createContent);
 router.put("/:id", authMiddleware(["Admin", "Creator"]), updateContent);
-router.delete("/:id", authMiddleware(["Admin", "Creator"]), deleteContent);
+router.delete("/:id", authMiddleware(["Admin"]), deleteContent);
 router.post("/upload", upload.single("image"), uploadImage);
 
 export default router;
